@@ -44,21 +44,77 @@ int main() {
 
         try {
             if (command == "create") {
-                myBank.create_account(arg1, arg2, amount);
-                std::cout << "Account created successfully." << std::endl;
+                try {
+                    if (arg1.empty() || arg2.empty()) {
+                        throw std::runtime_error("Error: name and account number are required.");
+                    } else if (amount <= 0) {
+                        throw std::runtime_error("Error: initial balance must be greater than zero.");
+                    } else {
+                        myBank.create_account(arg1, arg2, amount);
+                        std::cout << "Account created successfully." << std::endl;
+                    }
+                } catch (const std::exception &e) {
+                    std::cerr << "Error: " << e.what() << std::endl;
+                }
             } else if (command == "deposit") {
-                myBank.deposit(arg1, amount);
-                std::cout << "Deposit successful." << std::endl;
+                try {
+                    if (arg1.empty()) {
+                        throw std::runtime_error("Error: account number is required.");
+                    } else if (amount <= 0) {
+                        throw std::runtime_error("Error: deposit amount must be greater than zero.");
+                    } else {
+                        myBank.deposit(arg1, amount);
+                        std::cout << "Deposit successful." << std::endl;
+                    }
+                } catch (const std::exception &e) {
+                    std::cerr << "Error: " << e.what() << std::endl;
+                }
             } else if (command == "withdraw") {
-                myBank.withdraw(arg1, amount);
-                std::cout << "Withdrawal successful." << std::endl;
+                try {
+                    if (arg1.empty()) {
+                        throw std::runtime_error("Error: account number is required.");
+                    } else if (amount <= 0) {
+                        throw std::runtime_error("Error: withdrawal amount must be greater than zero.");
+                    } else {
+                        myBank.withdraw(arg1, amount);
+                        std::cout << "Withdrawal successful." << std::endl;
+                    }
+                } catch (const std::exception &e) {
+                    std::cerr << "Error: " << e.what() << std::endl;
+                }
             } else if (command == "transfer") {
-                myBank.transfer(arg1, arg2, amount);
-                std::cout << "Transfer successful." << std::endl;
+                try {
+                    if (arg1.empty() || arg2.empty()) {
+                        throw std::runtime_error("Error: sender and recipient account numbers are required.");
+                    } else if (amount <= 0) {
+                        throw std::runtime_error("Error: transfer amount must be greater than zero.");
+                    } else {
+                        myBank.transfer(arg1, arg2, amount);
+                        std::cout << "Transfer successful." << std::endl;
+                    }
+                } catch (const std::exception &e) {
+                    std::cerr << "Error: " << e.what() << std::endl;
+                }
             } else if (command == "balance") {
-                myBank.view_balance(arg1);
+                try {
+                    if (arg1.empty()) {
+                        throw std::runtime_error("Error: account number is required.");
+                    } else {
+                        myBank.view_balance(arg1);
+                    }
+                } catch (const std::exception &e) {
+                    std::cerr << "Error: " << e.what() << std::endl;
+                }
             } else if (command == "history") {
-                myBank.view_transaction_history(arg1);
+                try {
+                    if (arg1.empty()) {
+                        throw std::runtime_error("Error: account number is required.");
+                    } else {
+                        myBank.view_transaction_history(arg1);
+                    }
+                } catch (const std::exception &e) {
+                    std::cerr << "Error: " << e.what() << std::endl;
+                }
             } else if (command == "close") {
                 myBank.close_account(arg1);
             } else if (command == "display") {
