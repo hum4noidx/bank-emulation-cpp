@@ -10,7 +10,7 @@ private:
     double balance;
 
 public:
-    Account(const std::string &number, const std::string &name, double initial_balance);
+    Account(std::string number, std::string name, double initial_balance);
     void deposit(double amount);
     void withdraw(double amount);
     double get_balance() const;
