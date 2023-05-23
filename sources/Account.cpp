@@ -1,4 +1,5 @@
 #include <utility>
+#include <stdexcept>
 
 #include "../headers/Account.h"
 
@@ -14,6 +15,8 @@ void Account::deposit(double amount) {
 void Account::withdraw(double amount) {
     if (amount > 0 && amount <= balance) {
         balance -= amount;
+    } else {
+        throw std::runtime_error("Insufficient funds.");
     }
 }
 
