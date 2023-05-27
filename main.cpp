@@ -75,28 +75,77 @@ void handle_command(Bank& myBank, std::string& command, std::vector<std::string>
     }
 }
 
+void print_menu() {
+    std::cout << "Select an option:\n";
+    std::cout << "1. Create account\n";
+    std::cout << "2. Deposit\n";
+    std::cout << "3. Withdraw\n";
+    std::cout << "4. Transfer\n";
+    std::cout << "5. View Balance\n";
+    std::cout << "6. View Transaction History\n";
+    std::cout << "7. Close Account\n";
+    std::cout << "8. Display all accounts\n";
+    std::cout << "9. Exit\n";
+}
+
 int main() {
     Bank myBank("Awesome Bank", "Main Street");
 
-    std::string input;
     while (true) {
-        std::cout << "Enter a command (create, deposit, withdraw, transfer, balance, history, close, display, exit): ";
-        std::getline(std::cin, input);
+        print_menu();
 
-        if (input == "exit") break;
+        int choice;
+        std::cin >> choice;
+        std::cin.ignore();  // to clear the newline character from the buffer
 
-        std::istringstream iss(input);
-        std::string command;
+        if (choice == 9) break;
+
         std::vector<std::string> args;
-        std::string arg;
-        while(iss >> arg) args.push_back(arg);
+        std::string arg1, arg2;
+        double amount;
 
-        if (!args.empty()) {
-            command = args[0];
-            args.erase(args.begin());
+        switch (choice) {
+            case 1:
+                std::cout << "Enter account name, account number and initial amount: ";
+                std::cin >> arg1 >> arg2 >> amount;
+                handle_create(myBank, arg1, arg2, amount);
+                break;
+            case 2:
+                std::cout << "Enter account number and deposit amount: ";
+                std::cin >> arg1 >> amount;
+                handle_deposit(myBank, arg1, amount);
+                break;
+            case 3:
+                std::cout << "Enter account number and withdrawal amount: ";
+                std::cin >> arg1 >> amount;
+                handle_withdraw(myBank, arg1, amount);
+                break;
+            case 4:
+                std::cout << "Enter from account number, to account number and transfer amount: ";
+                std::cin >> arg1 >> arg2 >> amount;
+                handle_transfer(myBank, arg1, arg2, amount);
+                break;
+            case 5:
+                std::cout << "Enter account number: ";
+                std::cin >> arg1;
+                handle_balance(myBank, arg1);
+                break;
+            case 6:
+                std::cout << "Enter account number: ";
+                std::cin >> arg1;
+                handle_history(myBank, arg1);
+                break;
+            case 7:
+                std::cout << "Enter account number: ";
+                std::cin >> arg1;
+                handle_close(myBank, arg1);
+                break;
+            case 8:
+                myBank.display_all_accounts();
+                break;
+            default:
+                std::cout << "Invalid option, try again.\n";
         }
-
-        handle_command(myBank, command, args);
     }
 
     return 0;
